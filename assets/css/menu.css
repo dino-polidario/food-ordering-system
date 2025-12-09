@@ -1,0 +1,73 @@
+/* --- Added to /assets/css/global.css --- */
+
+/* Menu Section */
+.menu-section {
+    background-color: var(--menu-bg); /* #ecf0f1 */
+    padding: 3rem 5%;
+    min-height: 80vh;
+}
+.menu-section h2 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 2.5rem;
+    color: var(--card-bg); /* #121139 */
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.menu-card {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.menu-image {
+    height: 250px;
+    background-color: var(--food-img-bg); /* #d9d9d9 */
+    overflow: hidden;
+}
+.menu-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+.card-content h3 {
+    color: var(--text-white); 
+    margin-bottom: 0.5rem;
+}
+.card-content p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    height: 60px; /* Fixed height for consistent card size */
+    overflow: hidden;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}

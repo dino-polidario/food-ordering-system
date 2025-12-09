@@ -1,0 +1,75 @@
+.admin-container {
+    padding: 30px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 1rem;
+}
+
+.admin-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+/* Product Management Form */
+.product-form-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.product-form-card h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--card-bg); /* Using the dark menu description color */
+}
+
+/* Product List Table */
+.product-table-wrapper {
+    overflow-x: auto;
+}
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+.product-table th, .product-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.product-table th {
+    background-color: var(--primary-color);
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.product-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.product-table td img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.action-buttons a, .action-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--secondary-color);
+    margin-right: 10px;
+    font-size: 1.1rem;
+    padding: 5px;
+}
+.action-buttons button:hover {
+    color: #c0392b; /* Red for delete */
+}
