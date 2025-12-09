@@ -14,7 +14,7 @@ include '../includes/header.php';
     <form action="../actions/register_action.php" method="POST">
         <div class="form-group">
             <label>Full Name</label>
-            <input type="text" name="full_name" class="form-control" placeholder="Raine Nudo" required>
+            <input type="text" name="full_name" class="form-control" placeholder="Firstname Lastname" required>
         </div>
         <div class="form-group">
             <label>Email</label>
