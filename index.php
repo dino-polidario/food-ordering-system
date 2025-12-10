@@ -1,8 +1,9 @@
-<?php
-
+<?php 
+include 'includes/db.php'; 
+include 'includes/header.php'; 
 ?>
-    <!-- Home Page -->
-    <section id="home" class="page">
+
+<section id="home" class="page">
     <div class="hero">
         <div class="hero-content">
             <h2>We are RR Musubi</h2>
@@ -11,13 +12,15 @@
                 but the majority have suffered alteration in some form, by injected humour,
                 or randomised words which don't look even slightly believable.
             </p>
-            <button class="order-btn" onclick="showPage('menu')">ORDER NOW</button>
+            <a href="pages/menu.php" class="order-btn">ORDER NOW</a>
         </div>
 
         <div class="hero-image">
-            <img src="img/musubi-img.png" alt="musubi-image">
+            <img src="assets/img/musubi-img.png" alt="musubi-image"> 
         </div>
     </div>
-    </section>
-</body>
-</html>
+</section>
+
+<?php 
+include 'includes/footer.php'; 
+?>

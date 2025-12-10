@@ -13,8 +13,10 @@ try {
 }
 ?>
 
+<link rel="stylesheet" href="../assets/css/menu.css">
+
 <section class="menu-section">
-    <h2>Discover Our Delicious Musubi Menu</h2>
+    <h2> Our Menu</h2>
     
     <?php if(isset($_GET['success'])): ?>
         <div class="alert" style="background-color: var(--success); color: white; max-width: 800px; margin: 0 auto 20px; text-align: center;">
@@ -40,6 +42,7 @@ try {
                 </div>
                 <div class="card-content">
                     <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                    
                     <p><?php echo htmlspecialchars($product['description']); ?></p>
 
                     <div class="card-footer">
@@ -62,5 +65,6 @@ try {
     <?php endif; ?>
 </section>
 
-</body>
-</html>
+<?php 
+include '../includes/footer.php'; 
+?>
