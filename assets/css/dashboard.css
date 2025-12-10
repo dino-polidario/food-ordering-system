@@ -1,64 +1,278 @@
+/* ==================== DASHBOARD LAYOUT & CONTAINERS ==================== */
 .dashboard-container {
-    padding: 30px 5%;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 3rem 5%; /* Use same padding as other sections */
     min-height: 80vh;
+    background-color: var(--light-bg); /* Use light background for the page body */
 }
 
 .dashboard-header {
     margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--border-color);
 }
 
-.order-history-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1.5rem;
+.dashboard-header h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+/* Grid Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .dashboard-grid {
+        /* Left column (profile) takes 1 part, Right (orders) takes 2.5 parts */
+        grid-template-columns: 1fr 2.5fr; 
+    }
+}
+
+/* ==================== LEFT COLUMN: PROFILE CARD ==================== */
+.profile-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 15px; /* Matches your general card styling */
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.profile-header {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+}
+
+.profile-avatar {
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.profile-avatar .material-icons {
+    font-size: 30px;
+    color: var(--white);
+}
+
+.profile-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-dark);
+}
+
+.profile-details div {
+    margin-bottom: 1rem;
     font-size: 0.95rem;
 }
 
-.order-history-table th, .order-history-table td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    text-align: left;
+.profile-label {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    display: block;
+    font-weight: 400;
 }
 
-.order-history-table th {
-    background-color: var(--dark-bg);
-    color: var(--white);
+.profile-value {
+    color: var(--text-dark);
     font-weight: 600;
 }
 
-.order-history-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+.logout-btn-dashboard {
+    /* Reuses the style of the primary buttons in your other components */
+    background-color: var(--text-dark); /* Using dark background for contrast */
+    color: var(--white);
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px; 
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: background 0.3s;
 }
 
-/* Status Badges */
+.logout-btn-dashboard:hover {
+    background-color: #4C5E70;
+}
+
+/* --- History Section Title (bottom of left column) --- */
+.left-column h3 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+.left-column h3 .material-icons {
+    color: var(--primary-color);
+    font-size: 28px;
+}
+
+/* ==================== RIGHT COLUMN: ORDERS ==================== */
+.orders-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* --- Ongoing Order Card (Prominent Style) --- */
+.ongoing-order-card {
+    background: var(--white);
+    border: 3px solid var(--primary-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 2px dashed var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.order-id {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Reusing .order-status from your styles.css for consistent badges */
 .status-badge {
-    padding: 5px 10px;
+    padding: 0.4rem 0.8rem;
     border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.8rem;
+    font-weight: 600;
+    font-size: 0.9rem;
     text-transform: uppercase;
 }
+.status-pending { 
+    background-color: #fff3cd; /* Light yellow background */
+    color: var(--warning); 
+}
+.status-completed { 
+    background-color: #d4edda; /* Light green background */
+    color: var(--success); 
+}
+.status-cancelled { 
+    background-color: #f8d7da; /* Light red background */
+    color: #dc3545; /* Bootstrap Red */
+}
 
-.status-pending {
-    background-color: #fce3a2; /* Light Yellow */
-    color: #926f00;
-}
-.status-completed {
-    background-color: #d4edda; /* Light Green */
-    color: #155724;
-}
-.status-cancelled {
-    background-color: #f8d7da; /* Light Red */
-    color: #721c24;
+.order-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--text-dark);
 }
 
-/* Modal for Order Details */
+.order-total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border-color);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.delivery-banner {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* --- Past Orders Grid --- */
+.past-orders-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .past-orders-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.past-order-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 1.25rem;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.past-order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.past-order-card .order-card-header {
+    border-bottom: 1px solid #eee;
+}
+
+.order-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+    flex-grow: 1;
+    transition: opacity 0.3s;
+}
+
+.btn-view {
+    background-color: var(--text-light);
+    color: white;
+}
+.btn-reorder {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.action-btn:hover {
+    opacity: 0.85;
+}
+
+/* --- Modal Styling --- */
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     z-index: 2000;
     left: 0;
@@ -66,35 +280,56 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(2px);
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 8px;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     position: relative;
 }
 
 .close-btn {
-    color: #aaa;
+    color: var(--text-dark);
     float: right;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
-}
-.close-btn:hover, .close-btn:focus {
-    color: var(--header-bg);
-    text-decoration: none;
     cursor: pointer;
+    line-height: 1;
+}
+
+.modal-content h3 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.modal-content hr {
+    margin: 1rem 0;
+    border-color: var(--border-color);
+}
+
+.order-detail-list {
+    list-style: none;
+    padding: 0;
 }
 
 .order-detail-list li {
-    padding: 8px 0;
-    border-bottom: 1px dotted #ccc;
     display: flex;
     justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.95rem;
+}
+
+.modal-content .summary-total {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--secondary-color);
 }
