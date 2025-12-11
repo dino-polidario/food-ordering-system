@@ -1,59 +1,80 @@
 <?php
+session_start();
 include '../includes/db.php';
 
-// 1. Authorization Check
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../pages/login.php?error=You must be logged in to place an order.");
-    exit();
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_SESSION['cart'])) {
+    // 1. Retrieve Main Order Details
     $user_id = $_SESSION['user_id'];
-    $total_amount = filter_input(INPUT_POST, 'total_amount', FILTER_VALIDATE_FLOAT);
+    $total_amount = $_POST['total_amount'];
+    $address = $_POST['address'];
+    $phone = $_POST['phone'];
+    $payment_method = $_POST['payment_method']; // 'cod', 'gcash', or 'card'
+    $notes = $_POST['notes'];
+
+    // 2. Handle Dynamic Payment Details
+    // We check which method was chosen and grab the corresponding input field
+    $payment_details = '';
     
-    // --- Database Transaction Start ---
+    if ($payment_method === 'gcash') {
+        $payment_details = $_POST['gcash_number'] ?? ''; // Get the 11-digit number
+    } elseif ($payment_method === 'card') {
+        $payment_details = $_POST['card_number'] ?? '';  // Get the 16-digit number
+    }
+
     try {
-        // Ensure no other operations interfere
+        // Start Transaction for safety
         $pdo->beginTransaction();
 
-        // 2. Insert into orders table
-        $sql_order = "INSERT INTO orders (user_id, total_amount, status) VALUES (?, ?, 'pending')";
-        $stmt_order = $pdo->prepare($sql_order);
-        $stmt_order->execute([$user_id, $total_amount]);
+        // 3. Insert Order Record
+        // Make sure your database has the 'payment_details' column!
+        $sql_order = "INSERT INTO orders (user_id, total_amount, status, address, phone, payment_method, payment_details, notes, created_at) 
+                      VALUES (?, ?, 'pending', ?, ?, ?, ?, ?, NOW())";
         
-        // Get the ID of the newly created order
-        $order_id = $pdo->lastInsertId();
+        $stmt_order = $pdo->prepare($sql_order);
+        $stmt_order->execute([
+            $user_id, 
+            $total_amount, 
+            $address, 
+            $phone, 
+            $payment_method, 
+            $payment_details, 
+            $notes
+        ]);
 
-        // 3. Insert into order_items table for each item in the session cart
-        $sql_item = "INSERT INTO order_items (order_id, product_id, quantity, price_at_time_of_order) VALUES (?, ?, ?, ?)";
-        $stmt_item = $pdo->prepare($sql_item);
+        $order_id = $pdo->lastInsertId(); // Get the ID of the new order
 
-        foreach ($_SESSION['cart'] as $item) {
-            $stmt_item->execute([
-                $order_id, 
-                $item['id'], 
-                $item['quantity'], 
-                $item['price'] // Use the price from the session (safe from last-minute database changes)
+        // 4. Insert Items belonging to this order
+        $sql_items = "INSERT INTO order_items (order_id, product_id, quantity, price_at_time_of_order) 
+                      VALUES (?, ?, ?, ?)";
+        $stmt_items = $pdo->prepare($sql_items);
+
+        foreach ($_SESSION['cart'] as $product_id => $item) {
+            $stmt_items->execute([
+                $order_id,
+                $product_id, // Ensure your cart session uses 'id' or key as product_id
+                $item['quantity'],
+                $item['price']
             ]);
         }
 
-        // 4. Commit transaction and clear cart
+        // Commit the transaction
         $pdo->commit();
+
+        // 5. Clear cart after successful order
         unset($_SESSION['cart']);
 
-        header("Location: ../pages/customer_dashboard.php?success=Order #{$order_id} placed successfully! Thank you.");
+        header("Location: ../pages/customer_dashboard.php?success=Order #$order_id placed successfully!");
         exit();
 
     } catch (PDOException $e) {
-        // 5. Rollback on failure
         $pdo->rollBack();
-        error_log("Order Placement Failed: " . $e->getMessage());
-        header("Location: ../pages/cart.php?error=Failed to place order due to a system error. Please try again.");
+        header("Location: ../pages/checkout.php?error=Order failed: " . $e->getMessage());
         exit();
     }
 
 } else {
-    header("Location: ../pages/cart.php?error=Your cart is empty or invalid request.");
+    header("Location: ../pages/cart.php");
     exit();
 }
 ?>

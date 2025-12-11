@@ -33,8 +33,7 @@ include '../includes/header.php';
 </div>
 
 <?php 
-// No footer needed for auth pages usually, but we can add it if you want
-// include '../includes/footer.php'; 
+    include '../includes/footer.php'; 
 ?>
 </body>
 </html>

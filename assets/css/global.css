@@ -162,7 +162,6 @@ body { font-family: 'Open Sans', sans-serif; line-height: 1.6; background-color:
 .alert-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
 /* ==================== CART / CHECKOUT PAGE MODERN STYLES ==================== */
-/* --- Cart Page Styling --- */
 
 .cart-section {
     padding: 3rem 5%;
@@ -170,20 +169,57 @@ body { font-family: 'Open Sans', sans-serif; line-height: 1.6; background-color:
     min-height: 80vh;
 }
 
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-dark);
+    font-family: 'Feeling Passionate', cursive;
+}
+
 .cart-container {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Cart Items on left, Summary on right */
+    grid-template-columns: 2fr 1fr; /* Form/Items on left, Summary on right */
     gap: 30px;
 }
 
+/* --- Content & Summary Containers --- */
+
+/* Cart Items / Checkout Form Container (White Background) */
 .cart-items {
     background: var(--white);
-    padding: 1.5rem;
+    padding: 2rem; /* Increased padding slightly for better look */
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
+
+/* Cart Summary Container (Dark Background) */
+.cart-summary {
+    background: var(--dark-bg); /* #2C3E50 */
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+/* --- Shared Headings --- */
+.cart-items h3,
+.cart-summary h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    /* Use white border for dark summary, primary border for white form */
+    border-bottom: 1px solid var(--border-color); 
+}
+.cart-summary h3 {
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+
+/* ==================== CART ITEMS STYLING (For cart.php) ==================== */
 
 .cart-item {
     display: flex;
@@ -209,6 +245,7 @@ body { font-family: 'Open Sans', sans-serif; line-height: 1.6; background-color:
 .item-details h4 {
     margin: 0;
     font-size: 1.1rem;
+    color: var(--text-dark); /* Ensure readability on white background */
 }
 
 .item-controls {
@@ -221,8 +258,9 @@ body { font-family: 'Open Sans', sans-serif; line-height: 1.6; background-color:
     width: 50px;
     padding: 5px;
     text-align: center;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
+    color: var(--text-dark); /* Ensure input text is dark */
 }
 
 .remove-btn {
@@ -233,14 +271,48 @@ body { font-family: 'Open Sans', sans-serif; line-height: 1.6; background-color:
     font-size: 1.2rem;
 }
 
-/* Cart Summary */
-.cart-summary {
-    background: var(--dark-bg); /* #2C3E50 */
-    color: var(--white);
-    padding: 2rem;
-    border-radius: 8px;
-    height: fit-content;
+
+/* ==================== CHECKOUT FORM STYLING (For checkout.php) ==================== */
+
+.form-group {
+    margin-bottom: 1.2rem;
 }
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark); /* Explicitly setting label color */
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fff;
+    color: var(--text-dark); /* Explicitly setting input text color */
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(254, 184, 85, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* ==================== SUMMARY STYLING (Shared) ==================== */
 
 .summary-details {
     margin-bottom: 1.5rem;
@@ -251,6 +323,10 @@ body { font-family: 'Open Sans', sans-serif; line-height: 1.6; background-color:
     padding: 8px 0;
     border-bottom: 1px dashed rgba(255,255,255,0.3);
     font-size: 0.95rem;
+    color: var(--white); /* Ensure text is visible on dark background */
+}
+.summary-item span {
+    color: var(--white);
 }
 
 .summary-total {
@@ -263,11 +339,101 @@ body { font-family: 'Open Sans', sans-serif; line-height: 1.6; background-color:
     border-top: 2px solid var(--primary-color);
 }
 
-.checkout-btn {
-    width: 100%;
+
+/* ==================== ACTION BUTTONS STYLING (Shared) ==================== */
+
+.checkout-actions-container {
     margin-top: 1.5rem;
-    padding: 1rem;
-    font-size: 1.2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+}
+
+@media (max-width: 600px) {
+    .checkout-actions-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.action-btn,
+.action-btn-disabled,
+.submit-btn,
+.order-btn {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s, transform 0.2s;
+    border: none;
+    display: block;
+}
+
+/* Primary Submit/Checkout Button */
+.submit-btn,
+.btn-checkout {
+    width: 100%;
+    background-color: var(--primary-color); 
+    color: var(--dark-bg);
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+.submit-btn:hover,
+.btn-checkout:hover {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Secondary Back to Menu / Back to Cart Button */
+.btn-back-menu {
+    background-color: var(--text-dark); /* Updated to dark */
+    color: var(--white);
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    text-transform: uppercase;
+}
+
+.btn-back-menu:hover {
+    background-color: #1a252f; /* Slightly darker shade for hover effect */
+    opacity: 0.9;
+}
+
+/* Disabled Button Style */
+.action-btn-disabled {
+    background-color: var(--border-color);
+    color: var(--text-light);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* --- Responsive Layout Fix --- */
+@media (max-width: 900px) {
+    .cart-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Checkout Specific Form Controls */
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+}
+
+.payment-option input[type="radio"] {
+    accent-color: var(--primary-color);
+    transform: scale(1.2);
 }
 
 /* ==================== REVIEW & RATING SECTION ==================== */

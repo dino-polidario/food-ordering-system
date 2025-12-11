@@ -51,9 +51,9 @@ try {
                         <form action="../actions/add_to_cart_action.php" method="POST">
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                             <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
-                            <input type="number" name="quantity" value="1" min="1" max="99" style="width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
-                            <button type="submit" class="order-btn" style="margin-left: 10px;">
-                                <i class="material-icons" style="font-size: 16px;">add_shopping_cart</i>
+                            <input type="number" name="quantity" value="1" min="1" max="99">
+                            <button type="submit" class="order-btn" title="Add to Cart">
+                                <i class="material-icons" style="font-size: 18px;">add_shopping_cart</i>
                             </button>
                         </form>
                     </div>
