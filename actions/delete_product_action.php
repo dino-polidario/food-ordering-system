@@ -1,45 +1,32 @@
 <?php
+session_start();
 include '../includes/db.php';
 
-// Access control: only admins can access this page
+// Access control
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../pages/login.php?error=Access Denied: Admin required");
+    header("Location: ../pages/login.php?error=Access Denied");
     exit();
 }
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $product_id = $_GET['id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $product_id = $_POST['id'];
 
     try {
-        // 1. Fetch the image URL to delete the file from the server later
-        $stmt = $pdo->prepare("SELECT image_url FROM products WHERE id = ?");
+        // Soft Delete: Just set is_active to 0
+        $sql = "UPDATE products SET is_active = 0 WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
         $stmt->execute([$product_id]);
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($product) {
-            // 2. Delete the record from the database
-            $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
-            $stmt->execute([$product_id]);
-            
-            // 3. Delete the image file from the server
-            $image_path = '../' . $product['image_url'];
-            if (file_exists($image_path) && !empty($product['image_url'])) {
-                unlink($image_path);
-            }
-
-            header("Location: ../pages/admin_dashboard.php?tab=menu&success=Product deleted successfully!");
-            exit();
-        } else {
-            header("Location: ../pages/admin_dashboard.php?tab=menu&error=Product not found.");
-            exit();
-        }
+        // Success message
+        header("Location: ../pages/admin_dashboard.php?tab=menu&success=Product archived successfully!");
+        exit();
 
     } catch (PDOException $e) {
-        header("Location: ../pages/admin_dashboard.php?tab=menu&error=Database Error: Failed to delete product.");
+        header("Location: ../pages/admin_dashboard.php?tab=menu&error=Database Error: " . $e->getMessage());
         exit();
     }
 } else {
-    header("Location: ../pages/admin_dashboard.php?tab=menu&error=Invalid product ID.");
+    header("Location: ../pages/admin_dashboard.php?tab=menu");
     exit();
 }
 ?>

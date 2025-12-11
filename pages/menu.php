@@ -1,11 +1,14 @@
-<?php 
-include '../includes/db.php'; 
-include '../includes/header.php'; 
+<?php
+include '../includes/db.php';
+include '../includes/header.php';
 
 // Fetch all products
 $products = [];
 try {
-    $stmt = $pdo->query("SELECT * FROM products ORDER BY id ASC");
+    // Old Query:
+    // $stmt = $pdo->query("SELECT * FROM products ORDER BY id ASC");
+    // NEW Query (Only fetches active items):
+    $stmt = $pdo->query("SELECT * FROM products WHERE is_active = 1 ORDER BY id ASC");
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     // Graceful error handling for database issues
@@ -17,14 +20,14 @@ try {
 
 <section class="menu-section">
     <h2> Our Menu</h2>
-    
-    <?php if(isset($_GET['success'])): ?>
+
+    <?php if (isset($_GET['success'])): ?>
         <div class="alert" style="background-color: var(--success); color: white; max-width: 800px; margin: 0 auto 20px; text-align: center;">
             <?php echo htmlspecialchars($_GET['success']); ?>
         </div>
     <?php endif; ?>
 
-    <?php if(isset($fetch_error)): ?>
+    <?php if (isset($fetch_error)): ?>
         <div class="alert alert-error" style="max-width: 800px; margin: 0 auto 20px; text-align: center;">
             <?php echo $fetch_error; ?>
         </div>
@@ -35,36 +38,36 @@ try {
     <?php else: ?>
 
         <div class="menu-grid">
-            <?php foreach($products as $product): ?>
-            <div class="menu-card">
-                <div class="menu-image">
-                    <img src="../<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                </div>
-                <div class="card-content">
-                    <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-                    
-                    <p><?php echo htmlspecialchars($product['description']); ?></p>
+            <?php foreach ($products as $product): ?>
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="../<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                    </div>
+                    <div class="card-content">
+                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
 
-                    <div class="card-footer">
-                        <span class="product-price">₱<?php echo htmlspecialchars(number_format($product['price'], 2)); ?></span>
-                        
-                        <form action="../actions/add_to_cart_action.php" method="POST">
-                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                            <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
-                            <input type="number" name="quantity" value="1" min="1" max="99">
-                            <button type="submit" class="order-btn" title="Add to Cart">
-                                <i class="material-icons" style="font-size: 18px;">add_shopping_cart</i>
-                            </button>
-                        </form>
+                        <p><?php echo htmlspecialchars($product['description']); ?></p>
+
+                        <div class="card-footer">
+                            <span class="product-price">₱<?php echo htmlspecialchars(number_format($product['price'], 2)); ?></span>
+
+                            <form action="../actions/add_to_cart_action.php" method="POST">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
+                                <input type="number" name="quantity" value="1" min="1" max="99">
+                                <button type="submit" class="order-btn" title="Add to Cart">
+                                    <i class="material-icons" style="font-size: 18px;">add_shopping_cart</i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         </div>
 
     <?php endif; ?>
 </section>
 
-<?php 
-include '../includes/footer.php'; 
+<?php
+include '../includes/footer.php';
 ?>

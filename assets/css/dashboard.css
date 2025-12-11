@@ -1,12 +1,13 @@
 /* ==================== DASHBOARD LAYOUT & CONTAINERS ==================== */
 .dashboard-container {
-    padding: 3rem 5%; /* Use same padding as other sections */
+    padding: 1rem 5%; /* Use same padding as other sections */
     min-height: 80vh;
     background-color: var(--light-bg); /* Use light background for the page body */
+    margin-top: 0;
 }
 
 .dashboard-header {
-    margin-bottom: 2rem;
+    margin-bottom: 0;
 }
 
 .dashboard-header h2 {
