@@ -53,7 +53,7 @@ $rootPath = (basename(dirname($_SERVER['PHP_SELF'])) == 'pages') ? '../' : './';
 
             <div class="footer-copyright">
                 <p>
-                    &copy; 2024 RR Musubi. All Rights Reserved.
+                    &copy; 2025 RR Musubi. All Rights Reserved.
                 </p>
             </div>
         </div>
